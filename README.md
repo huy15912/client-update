@@ -5,10 +5,11 @@ Prototype Android kiểm tra quyền truy cập thư mục instance bằng Stora
 ## Tải APK
 
 - Bản hiện tại: **0.2-probe** (`versionCode` **2**)
+- Trang phát hành: [Releases](https://github.com/huy15912/client-update/releases). Mỗi phiên bản có một Release riêng với APK và ghi chú của chính phiên bản đó.
 - File: [`build/saf-instance-probe-v0.2-probe-debug.apk`](build/saf-instance-probe-v0.2-probe-debug.apk)
 - SHA-256: `A6B301B4926ED1B1599F00EA0FD948D04C21CF7C3C91B6743F1F52C1BBF75A0F`
 
-Mở link APK trên cloud phone, chọn **Download raw file** nếu GitHub hiện trang xem file, rồi mở APK để cài. Đây là bản **debug**; hệ điều hành có thể yêu cầu cho phép trình duyệt hoặc trình quản lý file cài ứng dụng từ nguồn này. Không cần Google Play.
+Trên cloud phone, ưu tiên tải APK từ mục **Assets** của Release tương ứng. Cũng có thể mở link APK trong `build/` và chọn **Download raw file**. Sau đó mở APK để cài. Đây là bản **debug**; hệ điều hành có thể yêu cầu cho phép trình duyệt hoặc trình quản lý file cài ứng dụng từ nguồn này. Không cần Google Play.
 
 ## Kiểm tra trên cloud phone
 
@@ -28,6 +29,6 @@ SAF chỉ cấp quyền cho cây thư mục được người dùng chọn. Trì
 - `build/`: APK đã build để tải.
 - `README.md`: phiên bản, checksum, cách cài và phạm vi kiểm chứng.
 
-Mã nguồn Android đang nằm trong project riêng trên máy phát triển. Trước **mỗi bản phát hành mới**, tăng `versionCode` và `versionName` trong `app/build.gradle.kts` của project đó, chạy `gradlew.bat :app:assembleDebug`, kiểm tra metadata/chữ ký APK, rồi chép APK mới vào `build/` với version trong tên file. Cập nhật link và SHA-256 ở đây. Giữ APK cũ nếu cần cho người dùng so sánh hoặc tải lại.
+Mã nguồn Android đang nằm trong project riêng trên máy phát triển. Trước **mỗi bản phát hành mới**, tăng `versionCode` và `versionName` trong `app/build.gradle.kts` của project đó, chạy `gradlew.bat :app:assembleDebug`, kiểm tra metadata/chữ ký APK, rồi chép APK mới vào `build/` với version trong tên file. Tạo tag và GitHub Release riêng cho version đó, đính kèm APK và ghi rõ thay đổi, cách thử, giới hạn kiểm chứng và SHA-256. Cập nhật link và SHA-256 ở đây. Giữ APK cũ nếu cần cho người dùng so sánh hoặc tải lại.
 
 APK debug được ký bằng debug key của máy build. Nếu sau này đổi máy hoặc đổi key, Android có thể không cho cài đè bản cũ; khi đó cần dùng cùng key hoặc gỡ bản cũ trước. Không đưa khóa ký riêng lên repo.
