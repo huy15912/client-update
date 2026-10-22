@@ -1,13 +1,15 @@
-# Thử Zenith Update 0.4.0-alpha trên cloud phone
+# Thử Zenith Update 0.4.1-alpha trên cloud phone
 
-Android 10+, package com.hsn.autoupdate, versionCode **6**. Cài đè bản cũ để giữ UUID/token/instance. Icon mới đã tách nền trắng. Helper: **Zenith Game Bridge 0.1.0**, Minecraft **1.21.11**, Java **21**, Fabric Loader **>=0.19.3**; không cần Fabric API.
+Android 10+, package com.hsn.autoupdate, versionCode **7**. Cài đè bản cũ để giữ UUID/token/instance. Icon mới đã tách nền trắng. Helper: **Zenith Game Bridge 0.1.0**, Minecraft **1.21.11**, Java **21**, Fabric Loader **>=0.19.3**; không cần Fabric API.
+
+Thanh ngang đầu app có 6 tab: **Tổng quan · Tài khoản · Instance · Mod phụ thuộc · Cài đặt · Log**. Vuốt ngang thanh tab để tới các mục phía sau. Tổng quan chỉ còn trạng thái/job.
 
 ## Thiết lập một lần
 
 1. Owner đăng **zenith-game-bridge-0.1.0.jar** vào tab **Mod phụ thuộc** của dashboard. JAR được giao local trong client mod/build, người dùng tự đăng. GitHub chỉ có APK/tài liệu.
-2. Cài đè APK mới, kiểm UUID/tài khoản/instance. Chọn gốc instance có mods/ và options.txt, giữ quyền SAF và bật backup.
-3. **Đóng toàn bộ game**, tắt Theo dõi cập nhật, bấm **Tải và cài mod phụ thuộc từ server**. App kiểm hash/metadata, backup/cài JAR và cấu hình riêng từng instance. Cài xong tự tắt thử thủ công.
-4. Bật theo dõi, mở Minecraft từng instance một lần. App phải hiện **Đã kết nối**, log có **Mod đã kết nối và xác thực khóa**. Lần bắt tay đầu chứng minh SAF nhìn thấy đúng file/khóa do game giữ. Không sao chép hoặc upload/chia sẻ zenith-bridge.json.
+2. Cài đè APK mới, kiểm UUID/tài khoản ở tab Tài khoản, thư mục game ở tab Instance. Chọn gốc instance có mods/ và options.txt, giữ quyền SAF và bật backup.
+3. **Đóng toàn bộ game**, tắt Theo dõi cập nhật tại tab **Cài đặt**, sang tab **Mod phụ thuộc** và bấm **Tải và cài mod phụ thuộc từ server**. App kiểm hash/metadata, backup/cài JAR và cấu hình riêng từng instance. Cài xong tự tắt thử thủ công.
+4. Bật theo dõi, mở Minecraft từng instance một lần. Tab **Instance** phải hiện **Đã kết nối**, log có **Mod đã kết nối và xác thực khóa**. Lần bắt tay đầu chứng minh SAF nhìn thấy đúng file/khóa do game giữ. Không sao chép hoặc upload/chia sẻ zenith-bridge.json.
 5. Mặc định cổng 10110. Cổng bận thì tắt theo dõi, chọn cổng cao khác, cài lại helper/config khi game đóng rồi bắt tay lại. Không cần liên kết lại UUID.
 
 ## Thử tự động
@@ -34,6 +36,8 @@ Kiểm tiếp job hỗn hợp nhiều JAR/config/options, hai instance, xóa mod
 
 Gửi log kèm Android/launcher version và provider/URI. Không gửi token, state.json hoặc zenith-bridge.json.
 
-## Đã kiểm
+## Kiểm chứng
 
-Build/lint 0 lỗi, 2 cảnh báo; APK v2 hợp lệ. 93 kiểm tra Android nền; 100 với SAF và khóa giữa UID khác; 109 với HTTP thủ công 3 tài nguyên; 122 với HTTP tự động 11 tài nguyên, hai instance giả. Mod có 29 kiểm tra socket JVM. Chưa xác nhận thoát/lưu thế giới trên Minecraft/UG Phone thật.
+Bản 0.4.1: build/lint 0 lỗi, 2 cảnh báo, APK v2 hợp lệ; 106 kiểm tra Android gồm điều hướng đủ 6 tab, nội dung đúng nhóm, tab đang chọn luôn nhìn thấy. Đã xem ảnh và thử vuốt ngang trên emulator. Không chạy lại HTTP/SAF mở rộng cho thay đổi giao diện này.
+
+Đã kiểm ở 0.4.0: 93 kiểm tra Android nền; 100 với SAF và khóa giữa UID khác; 109 với HTTP thủ công 3 tài nguyên; 122 với HTTP tự động 11 tài nguyên, hai instance giả. Mod có 29 kiểm tra socket JVM. Chưa xác nhận thoát/lưu thế giới trên Minecraft/UG Phone thật.
