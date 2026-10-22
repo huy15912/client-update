@@ -1,34 +1,30 @@
-# Zenith Update — Android client
+# Zenith Update — Android 0.3.1-alpha
 
-App Android Auto Update 2.0, bản **0.3.0-alpha**, package `com.hsn.autoupdate`, versionCode **3**, Android 10+ (`minSdk/targetSdk 29`). Cài song song được với SAF Instance Probe cũ.
+[Tải APK](https://github.com/huy15912/client-update/releases/download/v0.3.1-alpha/zenith-update-v0.3.1-alpha-debug.apk) · [Release/checksum](https://github.com/huy15912/client-update/releases/tag/v0.3.1-alpha) · [Hướng dẫn cloud phone](CLOUD_PHONE_TEST.md)
 
-## Tải và thử
+Android 10+, package `com.hsn.autoupdate`, versionCode **4**. Cài đè 0.3.0; giữ UUID/token, liên kết và instance. Không gỡ app hoặc reset danh tính để nâng cấp.
 
-- [Release v0.3.0-alpha](https://github.com/huy15912/client-update/releases/tag/v0.3.0-alpha)
-- [Tải APK trực tiếp](https://github.com/huy15912/client-update/releases/download/v0.3.0-alpha/zenith-update-v0.3.0-alpha-debug.apk)
-- [Hướng dẫn thử trên cloud phone](CLOUD_PHONE_TEST.md)
-- SHA-256: `BDCF6DBE262B80E4D01DA40233522867125EA5CCE1E6A6D7E928A18D877523EF`
+## Sửa trong bản này
 
-APK debug, chữ ký v2 đã xác minh. Không cần Google Play. Chỉ APK/tài liệu phát hành được đăng ở nhánh này; source Android và code server giữ trong project local. Không có token, secret, key ký hoặc cấu hình server trong payload.
+- Cầu nối đổi từ cổng 1010 sang **10110**, cho chọn cổng cao khác khi bị chiếm. Cổng thực tế được ghi vào cấu hình bridge của mod.
+- Bind cổng lỗi không còn tắt heartbeat/nhận job. App hiển thị riêng lỗi cầu nối và heartbeat gần nhất.
+- **Mở app tự bật theo dõi**, sau liên kết heartbeat mỗi 10 giây và duy trì foreground service khi ở nền. Công tắc tạm dừng đến lần mở app tiếp theo. Force-stop/mất mạng vẫn có thể làm gián đoạn.
+- Nút xác nhận chỉ bật khi job thực sự chờ đóng game; thêm retry report mất response/HTTP stream ngắt.
 
-## Chức năng
+App có hai tab Tổng quan/Log, quản lý nhiều instance SAF, tải/kiểm hash, cài/xóa mod theo Fabric ID, config/options, backup/rollback và nhật ký gián đoạn.
 
-Hai tab Tổng quan/Log; UUID/token và liên kết Discord qua dashboard; nhiều instance SAF; foreground service nhận job; tải/kiểm dung lượng và SHA-256; cài/xóa mod theo Fabric ID, config lồng thư mục và options; backup/rollback và journal trước khi ghi; xuất log, quản lý dữ liệu job.
+**Bản hoàn thiện phải tự xử lý job mà không mở UG để xác nhận.** Bản alpha hiện vẫn cần **Thử thủ công khi chưa có mod cầu nối** và xác nhận game đã đóng; mod tắt game/xác minh tiến trình chưa hoàn thiện. Không tự bỏ qua kiểm tra an toàn rồi ghi vào game đang chạy.
 
-**Chưa có mod tắt game thật.** Để thử bản app đầu, bật **Thử thủ công khi chưa có mod cầu nối**, đóng mọi game rồi xác nhận trong app ở mỗi job. Mặc định backup bật. App có listener/protocol cầu nối thử nghiệm nhưng chưa xác nhận với Minecraft.
+## Kiểm tra
 
-Server cần code mới hỗ trợ report tiến độ cùng trạng thái và được restart sau cập nhật. App gọi `https://zenithautoupdate.xyz`; dashboard dùng `https://dashboard.zenithautoupdate.xyz`.
+Build/lint đạt (0 lỗi, 2 cảnh báo), chữ ký APK v2 hợp lệ. Android 10 emulator: **61 kiểm tra nền**, **65 với SAF**, **69 với HTTP**. Đã thử service tự khởi động từ Activity, bind cổng cao, cổng bận/EACCES, nhận và cài job khi bridge lỗi, retry response thất lạc và hai instance fixture. HTTP dùng server Python/SQLite tạm, server nhận `succeeded`, `3/3`. Server code không đổi trong bản vá; 27 bài server đã đạt ở bản trước.
 
-## Đã kiểm tra
+**Chưa xác nhận bản 0.3.1 trên cloud phone/Amethyst thật.** Lỗi 0.3.0 đã được ghi nhận trên UG Phone. Chưa có mod tắt game thật, Windows EXE hoặc kiểm chứng mọi tình huống force-stop. Sau nâng cấp, đợi heartbeat thành công rồi tạo lại job nếu job trước đã hết cửa sổ 60 giây.
 
-- Build APK/app-test và lint đạt, 0 lỗi lint, 2 cảnh báo.
-- Server 27/27 test HTTP/SQLite.
-- Android 10 emulator: 51 kiểm tra cho lượt SAF và 51 kiểm tra cho lượt HTTP (47 kiểm tra nền dùng chung).
-- SAF dùng quyền chọn qua DocumentsUI và Downloads DocumentsProvider thật, ghi/đọc lại/khôi phục config trên thư mục giả.
-- HTTP gọi server Python thật với SQLite tạm, tải JAR/config/options và cài vào hai instance fixture; server nhận `succeeded`, `3/3`.
+SHA-256 APK:
 
-**Chưa xác nhận updater này trên Minecraft/Amethyst cloud phone thật.** Chưa thử mod thoát game, Windows EXE, mọi tình huống force-stop/provider hoặc mất response reset. Test fixture không thay thế kết quả máy thật.
+```
+694faf9ac3cdd68d97d306c9c1ce5540c970b3a857651aa11338d2d0333f28d3
+```
 
-## Bản cũ
-
-[v0.2-probe](https://github.com/huy15912/client-update/releases/tag/v0.2-probe) là phép thử quyền file SAF, không phải updater. Giữ Release/APK đó để đối chiếu. Mỗi version tiếp theo có versionCode/versionName tăng và Release riêng.
+Chỉ đăng APK/checksum/tài liệu. Source Android/server giữ trong project local; không có token, key ký hoặc config server trong payload. [Release 0.3.0](https://github.com/huy15912/client-update/releases/tag/v0.3.0-alpha) và [SAF probe 0.2](https://github.com/huy15912/client-update/releases/tag/v0.2-probe) được giữ nguyên. Mỗi version có Release riêng.
