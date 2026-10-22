@@ -1,49 +1,39 @@
-# Thử Zenith Update 0.3.2-alpha trên cloud phone
+# Thử Zenith Update 0.4.0-alpha trên cloud phone
 
-## Chuẩn bị
+Android 10+, package com.hsn.autoupdate, versionCode **6**. Cài đè bản cũ để giữ UUID/token/instance. Icon mới đã tách nền trắng. Helper: **Zenith Game Bridge 0.1.0**, Minecraft **1.21.11**, Java **21**, Fabric Loader **>=0.19.3**; không cần Fabric API.
 
-1. Server cần hỗ trợ cập nhật tiến độ trong cùng trạng thái (code đã sửa ở bản 0.3.0). Nếu đang dùng bản đó thì không cần đổi server cho bản vá 0.3.2; nếu chưa cập nhật thì cập nhật/restart, tránh `409` ở report. Giữ dashboard ở `dashboard.zenithautoupdate.xyz`, API app ở `zenithautoupdate.xyz`.
-2. Tải APK `zenith-update-v0.3.2-alpha-debug.apk` từ Assets của [Release v0.3.2-alpha](https://github.com/huy15912/client-update/releases/tag/v0.3.2-alpha). Cài đè bản 0.3.0/0.3.1 rồi mở **Zenith Update**; giữ nguyên UUID/token, liên kết và instance. Không cần gỡ app hay reset danh tính. Package khác SAF probe nên có thể cài song song.
-3. Dùng một instance thử hoặc bản sao instance trước. Bản này thực sự thay/xóa file được dashboard yêu cầu; backup mặc định bật.
+## Thiết lập một lần
 
-## Liên kết
+1. Owner đăng **zenith-game-bridge-0.1.0.jar** vào tab **Mod phụ thuộc** của dashboard. JAR được giao local trong client mod/build, người dùng tự đăng. GitHub chỉ có APK/tài liệu.
+2. Cài đè APK mới, kiểm UUID/tài khoản/instance. Chọn gốc instance có mods/ và options.txt, giữ quyền SAF và bật backup.
+3. **Đóng toàn bộ game**, tắt Theo dõi cập nhật, bấm **Tải và cài mod phụ thuộc từ server**. App kiểm hash/metadata, backup/cài JAR và cấu hình riêng từng instance. Cài xong tự tắt thử thủ công.
+4. Bật theo dõi, mở Minecraft từng instance một lần. App phải hiện **Đã kết nối**, log có **Mod đã kết nối và xác thực khóa**. Lần bắt tay đầu chứng minh SAF nhìn thấy đúng file/khóa do game giữ. Không sao chép hoặc upload/chia sẻ zenith-bridge.json.
+5. Mặc định cổng 10110. Cổng bận thì tắt theo dõi, chọn cổng cao khác, cài lại helper/config khi game đóng rồi bắt tay lại. Không cần liên kết lại UUID.
 
-1. Bấm **Tạo danh tính lần đầu**, nhập tên máy. App hiện UUID và mã 8 ký tự có hạn 10 phút.
-2. Vào dashboard bằng tài khoản còn hiệu lực, liên kết bằng mã đó. Trong app bấm **Làm mới tài khoản từ server**; phải thấy tên tài khoản và Discord ID đúng.
-3. Mã hết hạn khi chưa liên kết: **Tạo mã liên kết mới**. Không reset danh tính chỉ để xin mã khác. Xin mới giới hạn 3 lần/giờ và cách nhau 60 giây.
-4. Nếu token bị thu hồi hoặc reset mất response, app báo lỗi. Chỉ dùng nút chủ động tạo lại sau khi hiểu rằng UUID mới cần liên kết lại; app không lấy lại được token đã mất.
+## Thử tự động
 
-## Chọn thư mục
+Tắt **Thử thủ công (bỏ qua tự động tắt game)**, giữ theo dõi ở nền rồi tạo job nhỏ trên dashboard lúc game đang chạy.
 
-1. **Thêm instance bằng trình chọn thư mục** → chọn gốc instance có `mods/` và `options.txt` → cấp đọc/ghi → đặt nhãn.
-2. App thử file tạm riêng trong `mods/` rồi xóa. Kiểm tra lại nếu quyền bị thu hồi. Có thể thêm instance thứ hai; tất cả instance đã thêm đều nhận cùng một job.
-3. Bật **Sao lưu trước khi cập nhật**. Bật **Thử thủ công khi chưa có mod cầu nối** vì chưa có mod tắt game thật.
-4. Mở app sẽ tự bật **Theo dõi cập nhật**. Android phải có thông báo tác vụ; app hiện heartbeat gần nhất và dashboard thấy client online. Giữ tác vụ chạy và mạng ổn định. Công tắc cho tạm dừng trong phiên; mở app lại sẽ tự bật. Job cũ đã quá cửa sổ 60 giây cần tạo lại sau khi client online.
+- App tải/kiểm hash, yêu cầu đúng instance thoát.
+- Mod báo tiếng Việt, chờ 5 giây rồi yêu cầu Minecraft thoát bình thường.
+- App chờ game nhả khóa, backup/cài/đọc lại file rồi báo succeeded. **Không cần mở UG để bấm xác nhận.**
+- Không mở lại game khi đang cài. Bản này không tự mở lại launcher.
+- Sau lần bắt tay đầu, game đóng sẵn vẫn cập nhật được nếu marker còn đúng session và app lấy được khóa.
 
-## Job đầu tiên
+Kiểm tiếp job hỗn hợp nhiều JAR/config/options, hai instance, xóa mod, cập nhật khi game đóng và thay helper rồi bắt tay lại. Một instance không đạt thì cả job lỗi, không tự bỏ qua. Bản vá alias/nested JAR của 0.3.2 vẫn giữ.
 
-Nếu nâng từ 0.3.1 sau lỗi `preflight: JAR tải về có nhiều mod ID/alias` với Cloth Config: cài đè 0.3.2, mở app rồi tạo **job mới** với cùng tài nguyên. Job cũ đã `failed` không tự chạy lại. Lỗi trong video dừng trước khi cài, nên không cần khôi phục file game cho riêng job đó. Không cần bỏ Cloth Config ra khỏi batch.
+## Đọc lỗi
 
-1. Upload một config thử, ví dụ `zenith-test/settings.json`, rồi tạo job cho đúng client.
-2. App tải/kiểm hash và chờ **đóng mọi game**. Tự thoát các game đang mở, trở về app, bấm **Tôi đã đóng tất cả game — tiếp tục job** và xác nhận. Chờ tối đa 5 phút; không mở lại game trong lúc cài.
-3. App chụp backup cuối, cài/đọc lại file rồi báo thành công. Dashboard phải hiện `succeeded`, đủ tiến độ. Kiểm tra file ở `<instance>/config/zenith-test/settings.json`.
-4. Thử tiếp `options.txt`, thêm/thay JAR có một Fabric mod ID, rồi xóa theo ID. Mod được thay theo ID dù tên JAR khác. Job xóa không tìm thấy mod phải thành công như tác vụ đã vắng mặt; nhiều JAR cùng ID phải báo lỗi.
-5. Với hai instance, chỉ báo thành công nếu cả hai xong. Log phải ghi instance/file nào đã làm. Nếu instance thứ hai lỗi, kiểm tra log rollback instance trước đó.
+- Owner chưa đăng JAR: đăng helper trước.
+- Mở game xác thực khóa lần đầu: bật theo dõi và mở game đến khi Đã kết nối.
+- Không quan sát được khóa/provider không hỗ trợ: xuất log; app chưa được phép tự động cài trên provider đó.
+- Game mất cầu nối nhưng còn giữ khóa: app chờ tối đa 5 phút rồi lỗi, không dùng xác nhận thủ công trong luồng tự động.
+- Chưa cài đúng mod phụ thuộc: dùng nút riêng khi game đóng. Job thường không được sửa/xóa helper, cấu hình hay khóa.
+- Journal gián đoạn: tắt theo dõi, đóng game, xem file có thể đã sửa rồi Khôi phục. Backup tắt/hỏng thì tự xử lý trước khi xác nhận kết thúc job lỗi.
+- Android force-stop/khởi động lại có thể dừng app. Mở app để bật lại theo dõi. Thiết bị mất mạng/app bị dừng thì không nhận được job.
 
-## Khi có lỗi
+Gửi log kèm Android/launcher version và provider/URI. Không gửi token, state.json hoặc zenith-bridge.json.
 
-- Mở tab **Log**, chọn nhóm Lỗi hoặc Tất cả, sao chép/xuất log. Gửi kèm Android version, launcher/version, provider/URI được chọn và bước lỗi. Không gửi `state.json`, `zenith-bridge.json` hoặc token.
-- Có nhật ký gián đoạn: tắt theo dõi, đóng game, xem danh sách file có thể đã sửa rồi dùng **Khôi phục job gián đoạn**. Backup hỏng/tắt thì tự xử lý file; chỉ khi xong mới bấm **Đã sửa thủ công — kết thúc job lỗi**.
-- `403`: kiểm tra tài khoản chưa liên kết/hết hạn. `409` ở heartbeat: hết slot. `409` ở report: kiểm tra code server đã cập nhật hoặc job đã bị hủy.
-- Cầu nối mặc định dùng cổng 10110 (không dùng 1010). Nếu bị chiếm, tạm dừng theo dõi, chọn cổng khác từ 1024–65535 rồi bật lại; nếu đã cài mod thì cần ghi lại cấu hình qua nút cài mod khi game đã đóng. Lỗi cầu nối vẫn được hiển thị nhưng không tắt heartbeat; chế độ thử thủ công vẫn nhận job.
-- Owner chưa đăng mod phụ thuộc: API trả `mod:null`; không phải lỗi mạng. Bản này vẫn thử cập nhật được bằng chế độ thủ công. Nút cài mod phụ thuộc không tự chứng minh mod đã chạy.
+## Đã kiểm
 
-## Mục cần xác nhận từ máy thật
-
-- Thêm/giữ quyền SAF sau khi mở lại app; nhiều instance có đúng thư mục.
-- Liên kết/đổi tên/lấy tài khoản; app giữ UUID/token qua khởi động lại.
-- Foreground service sống trong lúc chơi, nhận job trong 60 giây.
-- JAR thêm/thay/xóa, config lồng thư mục, options, backup và tình huống lỗi instance thứ hai.
-- Ghi log rõ khi mất mạng/app bị dừng; không báo thành công giả hoặc tự chạy lại thao tác cài.
-
-Các bài test local hiện dùng emulator Android 10 và fixture, chưa xác nhận các mục trên với Minecraft thật. Cầu nối tắt game sẽ thử ở bước làm mod tiếp theo.
+Build/lint 0 lỗi, 2 cảnh báo; APK v2 hợp lệ. 93 kiểm tra Android nền; 100 với SAF và khóa giữa UID khác; 109 với HTTP thủ công 3 tài nguyên; 122 với HTTP tự động 11 tài nguyên, hai instance giả. Mod có 29 kiểm tra socket JVM. Chưa xác nhận thoát/lưu thế giới trên Minecraft/UG Phone thật.
