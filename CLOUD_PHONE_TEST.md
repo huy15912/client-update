@@ -1,9 +1,9 @@
-# Thử Zenith Update 0.3.1-alpha trên cloud phone
+# Thử Zenith Update 0.3.2-alpha trên cloud phone
 
 ## Chuẩn bị
 
-1. Server cần hỗ trợ cập nhật tiến độ trong cùng trạng thái (code đã sửa ở bản 0.3.0). Nếu đang dùng bản đó thì không cần đổi server cho bản vá 0.3.1; nếu chưa cập nhật thì cập nhật/restart, tránh `409` ở report. Giữ dashboard ở `dashboard.zenithautoupdate.xyz`, API app ở `zenithautoupdate.xyz`.
-2. Tải APK `zenith-update-v0.3.1-alpha-debug.apk` từ Assets của [Release v0.3.1-alpha](https://github.com/huy15912/client-update/releases/tag/v0.3.1-alpha). Cài đè bản 0.3.0 rồi mở **Zenith Update**; giữ nguyên UUID/token, liên kết và instance. Không cần gỡ app hay reset danh tính. Package khác SAF probe nên có thể cài song song.
+1. Server cần hỗ trợ cập nhật tiến độ trong cùng trạng thái (code đã sửa ở bản 0.3.0). Nếu đang dùng bản đó thì không cần đổi server cho bản vá 0.3.2; nếu chưa cập nhật thì cập nhật/restart, tránh `409` ở report. Giữ dashboard ở `dashboard.zenithautoupdate.xyz`, API app ở `zenithautoupdate.xyz`.
+2. Tải APK `zenith-update-v0.3.2-alpha-debug.apk` từ Assets của [Release v0.3.2-alpha](https://github.com/huy15912/client-update/releases/tag/v0.3.2-alpha). Cài đè bản 0.3.0/0.3.1 rồi mở **Zenith Update**; giữ nguyên UUID/token, liên kết và instance. Không cần gỡ app hay reset danh tính. Package khác SAF probe nên có thể cài song song.
 3. Dùng một instance thử hoặc bản sao instance trước. Bản này thực sự thay/xóa file được dashboard yêu cầu; backup mặc định bật.
 
 ## Liên kết
@@ -21,6 +21,8 @@
 4. Mở app sẽ tự bật **Theo dõi cập nhật**. Android phải có thông báo tác vụ; app hiện heartbeat gần nhất và dashboard thấy client online. Giữ tác vụ chạy và mạng ổn định. Công tắc cho tạm dừng trong phiên; mở app lại sẽ tự bật. Job cũ đã quá cửa sổ 60 giây cần tạo lại sau khi client online.
 
 ## Job đầu tiên
+
+Nếu nâng từ 0.3.1 sau lỗi `preflight: JAR tải về có nhiều mod ID/alias` với Cloth Config: cài đè 0.3.2, mở app rồi tạo **job mới** với cùng tài nguyên. Job cũ đã `failed` không tự chạy lại. Lỗi trong video dừng trước khi cài, nên không cần khôi phục file game cho riêng job đó. Không cần bỏ Cloth Config ra khỏi batch.
 
 1. Upload một config thử, ví dụ `zenith-test/settings.json`, rồi tạo job cho đúng client.
 2. App tải/kiểm hash và chờ **đóng mọi game**. Tự thoát các game đang mở, trở về app, bấm **Tôi đã đóng tất cả game — tiếp tục job** và xác nhận. Chờ tối đa 5 phút; không mở lại game trong lúc cài.
