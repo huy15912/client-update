@@ -1,34 +1,34 @@
-# SAF Instance Probe
+# Zenith Update — Android client
 
-Prototype Android kiểm tra quyền truy cập thư mục instance bằng Storage Access Framework (SAF). Đây **chưa phải** ứng dụng cập nhật mod.
+App Android Auto Update 2.0, bản **0.3.0-alpha**, package `com.hsn.autoupdate`, versionCode **3**, Android 10+ (`minSdk/targetSdk 29`). Cài song song được với SAF Instance Probe cũ.
 
-## Tải APK
+## Tải và thử
 
-- Bản hiện tại: **0.2-probe** (`versionCode` **2**)
-- Trang phát hành: [Releases](https://github.com/huy15912/client-update/releases). Mỗi phiên bản có một Release riêng với APK và ghi chú của chính phiên bản đó.
-- File: [`build/saf-instance-probe-v0.2-probe-debug.apk`](build/saf-instance-probe-v0.2-probe-debug.apk)
-- SHA-256: `A6B301B4926ED1B1599F00EA0FD948D04C21CF7C3C91B6743F1F52C1BBF75A0F`
+- [Release v0.3.0-alpha](https://github.com/huy15912/client-update/releases/tag/v0.3.0-alpha)
+- [Tải APK trực tiếp](https://github.com/huy15912/client-update/releases/download/v0.3.0-alpha/zenith-update-v0.3.0-alpha-debug.apk)
+- [Hướng dẫn thử trên cloud phone](CLOUD_PHONE_TEST.md)
+- SHA-256: `BDCF6DBE262B80E4D01DA40233522867125EA5CCE1E6A6D7E928A18D877523EF`
 
-Trên cloud phone, ưu tiên tải APK từ mục **Assets** của Release tương ứng. Cũng có thể mở link APK trong `build/` và chọn **Download raw file**. Sau đó mở APK để cài. Đây là bản **debug**; hệ điều hành có thể yêu cầu cho phép trình duyệt hoặc trình quản lý file cài ứng dụng từ nguồn này. Không cần Google Play.
+APK debug, chữ ký v2 đã xác minh. Không cần Google Play. Chỉ APK/tài liệu phát hành được đăng ở nhánh này; source Android và code server giữ trong project local. Không có token, secret, key ký hoặc cấu hình server trong payload.
 
-## Kiểm tra trên cloud phone
+## Chức năng
 
-1. Mở Amethyst và tạo/chạy một instance trước. Xác định thư mục gốc của instance có `options.txt` và `mods/`.
-2. Mở SAF Instance Probe, chọn thư mục instance bằng trình chọn thư mục của Android và cấp quyền cho thư mục đó.
-3. Đọc các dấu hiệu app hiển thị. Chỉ khi chắc chắn đó là instance cần thử, bấm phép thử trong `mods/`.
-4. App tạo một file `.txt` riêng có tiền tố `hsn-saf-probe-`, đọc nó, đổi tên rồi xóa. Kiểm tra kết quả trên màn hình và xác nhận không còn file thử. Ghi lại phiên bản Android, phiên bản Amethyst, đường dẫn/URI được chọn và thông báo lỗi nếu có.
+Hai tab Tổng quan/Log; UUID/token và liên kết Discord qua dashboard; nhiều instance SAF; foreground service nhận job; tải/kiểm dung lượng và SHA-256; cài/xóa mod theo Fabric ID, config lồng thư mục và options; backup/rollback và journal trước khi ghi; xuất log, quản lý dữ liệu job.
 
-App không đụng tới file mod có sẵn. Dấu hiệu `options.txt` và `mods/` chỉ giúp nhận diện, chưa chứng minh đây là instance Amethyst. Bản này đã thử luồng SAF trên Android 10 emulator với thư mục giả; **chưa kiểm chứng trên Amethyst hoặc cloud phone**.
+**Chưa có mod tắt game thật.** Để thử bản app đầu, bật **Thử thủ công khi chưa có mod cầu nối**, đóng mọi game rồi xác nhận trong app ở mỗi job. Mặc định backup bật. App có listener/protocol cầu nối thử nghiệm nhưng chưa xác nhận với Minecraft.
 
-## Giới hạn quyền lưu trữ
+Server cần code mới hỗ trợ report tiến độ cùng trạng thái và được restart sau cập nhật. App gọi `https://zenithautoupdate.xyz`; dashboard dùng `https://dashboard.zenithautoupdate.xyz`.
 
-SAF chỉ cấp quyền cho cây thư mục được người dùng chọn. Trình chọn thư mục hoặc storage provider có thể từ chối truy cập, đặc biệt ở vùng riêng của ứng dụng khác như `Android/data`; app không vượt qua giới hạn đó. `minSdk` và `targetSdk` đều là 29 (Android 10). Hành vi trên Android mới hơn có thể khác.
+## Đã kiểm tra
 
-## Cấu trúc và phát hành bản tiếp theo
+- Build APK/app-test và lint đạt, 0 lỗi lint, 2 cảnh báo.
+- Server 27/27 test HTTP/SQLite.
+- Android 10 emulator: 51 kiểm tra cho lượt SAF và 51 kiểm tra cho lượt HTTP (47 kiểm tra nền dùng chung).
+- SAF dùng quyền chọn qua DocumentsUI và Downloads DocumentsProvider thật, ghi/đọc lại/khôi phục config trên thư mục giả.
+- HTTP gọi server Python thật với SQLite tạm, tải JAR/config/options và cài vào hai instance fixture; server nhận `succeeded`, `3/3`.
 
-- `build/`: APK đã build để tải.
-- `README.md`: phiên bản, checksum, cách cài và phạm vi kiểm chứng.
+**Chưa xác nhận updater này trên Minecraft/Amethyst cloud phone thật.** Chưa thử mod thoát game, Windows EXE, mọi tình huống force-stop/provider hoặc mất response reset. Test fixture không thay thế kết quả máy thật.
 
-Mã nguồn Android đang nằm trong project riêng trên máy phát triển. Trước **mỗi bản phát hành mới**, tăng `versionCode` và `versionName` trong `app/build.gradle.kts` của project đó, chạy `gradlew.bat :app:assembleDebug`, kiểm tra metadata/chữ ký APK, rồi chép APK mới vào `build/` với version trong tên file. Tạo tag và GitHub Release riêng cho version đó, đính kèm APK và ghi rõ thay đổi, cách thử, giới hạn kiểm chứng và SHA-256. Cập nhật link và SHA-256 ở đây. Giữ APK cũ nếu cần cho người dùng so sánh hoặc tải lại.
+## Bản cũ
 
-APK debug được ký bằng debug key của máy build. Nếu sau này đổi máy hoặc đổi key, Android có thể không cho cài đè bản cũ; khi đó cần dùng cùng key hoặc gỡ bản cũ trước. Không đưa khóa ký riêng lên repo.
+[v0.2-probe](https://github.com/huy15912/client-update/releases/tag/v0.2-probe) là phép thử quyền file SAF, không phải updater. Giữ Release/APK đó để đối chiếu. Mỗi version tiếp theo có versionCode/versionName tăng và Release riêng.
